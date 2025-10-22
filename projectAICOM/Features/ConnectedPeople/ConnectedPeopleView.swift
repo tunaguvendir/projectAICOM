@@ -1,44 +1,44 @@
 import SwiftUI
 
 struct ConnectedPeopleView: View {
+    let theme: TabTheme
+
     private let people = Person.samplePeople
 
     var body: some View {
-        ScrollView {
+        ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: 24) {
                 header
+
                 ForEach(people) { person in
-                    PersonCardView(person: person)
+                    PersonCardView(person: person, theme: theme)
                 }
             }
-            .padding(.horizontal, 24)
-            .padding(.top, 40)
-            .padding(.bottom, 16)
+            .padding(.horizontal, 28)
+            .padding(.top, 48)
+            .padding(.bottom, 28)
         }
-        .scrollIndicators(.hidden)
-        .background(Color(.systemGray6))
     }
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Connected People")
+            Text("Friends & collaborators")
                 .font(.system(size: 32, weight: .bold, design: .rounded))
-                .foregroundStyle(
-                    LinearGradient(
-                        colors: [Color(red: 0.91, green: 0.11, blue: 0.38), Color(red: 0.28, green: 0.64, blue: 0.94)],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
-            Text("Stay close to the collaborators that spark your creativity.")
+                .foregroundStyle(theme.primary)
+
+            Text("A calm list of the people co-creating with you this week. Tap a card to open their focus threads.")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
         }
     }
 }
 
 struct ConnectedPeopleView_Previews: PreviewProvider {
     static var previews: some View {
-        ConnectedPeopleView()
+        ConnectedPeopleView(theme: MainTab.friends.theme)
+            .previewLayout(.sizeThatFits)
+            .padding()
+            .background(MainTab.friends.theme.background)
     }
 }
